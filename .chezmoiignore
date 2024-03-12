@@ -1,0 +1,73 @@
+# Arch specific
+{{ if ne .chezmoi.osRelease.idLike "arch" }}
+.config/paru/paru.conf
+{{ end }}
+
+# Alacritty
+{{ if not (lookPath "alacritty") }}
+.config/alacritty
+{{ end }}
+
+# fish
+{{ if lookPath "fish" }}
+# General
+.config/fish/fish_variables
+.config/fish/fish_plugins
+.config/fish/completions/*
+.config/fish/conf.d/*
+.config/fish/functions/*
+.config/fish/functions/*/**
+
+# Excludes
+# Completions
+{{ if lookPath "just" }}
+!.config/fish/completions/just.fish
+{{ end }}
+
+{{ if lookPath "rustup" }}
+!.config/fish/completions/rustup.fish
+{{ end }}
+
+# Functions
+!.config/fish/functions/assh.fish
+!.config/fish/functions/fish_user_key_bindings.fish
+!.config/fish/functions/reminder.fish
+!.config/fish/functions/su.fish
+!.config/fish/functions/update-tools.fish
+
+# {{ if lookPath "nnn" }}
+# !.config/fish/functions/N.fish
+# {{ end }}
+
+# Abbreviations
+{{ if lookPath "difft" }}
+!.config/fish/conf.d/difft.fish
+{{ end }}
+
+{{ if lookPath "eza" }}
+!.config/fish/conf.d/eza.fish
+{{ end }}
+
+{{ if lookPath "git" }}
+!.config/fish/conf.d/git.fish
+{{ end }}
+
+{{ if lookPath "lazygit" }}
+!.config/fish/conf.d/lazygit.fish
+{{ end }}
+
+{{ if lookPath "leetcode" }}
+!.config/fish/conf.d/leetcode.fish
+{{ end }}
+
+{{ if lookPath "nnn" }}
+!.config/fish/conf.d/nnn.fish
+{{ end }}
+{{ else }}
+# Otherwise completly ignore fish
+.config/fish
+{{ end }}
+
+# hypr
+.config/hypr/hyprlandd.conf
+.config/hypr/hyprland_debug.conf
