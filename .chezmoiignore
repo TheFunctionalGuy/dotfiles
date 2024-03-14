@@ -1,11 +1,6 @@
 # Arch specific
-{{ if ne .chezmoi.osRelease.idLike "arch" }}
+{{ if ne .chezmoi.osRelease.id "arch" }}
 .config/paru/paru.conf
-{{ end }}
-
-# Alacritty
-{{ if not (lookPath "alacritty") }}
-.config/alacritty
 {{ end }}
 
 # fish
@@ -68,6 +63,30 @@
 .config/fish
 {{ end }}
 
+# Ignore all WMs
+.config/hypr/*
+.config/river/*
+.config/sway/*
+
+{{ if eq .wm "hyprland" }}
+!.config/hypr/*
+{{ else if eq .wm "river" }}
+!.config/river/*
+{{ else if eq .wm "sway" }}
+!.config/sway/*
+{{ end }}
+
+# Ignore on server
+{{ if eq .wm "none" }}
+.config/alacritty/*
+.config/feh/*
+.config/fuzzel/*
+.config/kanshi/*
+.config/swayidle/*
+.config/waybar/*
+{{ end }}
+
+# Unconditional ignores
 # hypr
 .config/hypr/hyprlandd.conf
 .config/hypr/hyprland_debug.conf
