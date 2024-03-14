@@ -260,7 +260,7 @@ if [ "$river_version" = "0.3.0-dev" ]; then
 	waybar_log='/tmp/waybar.log'
 
 	riverctl spawn "~/.config/river/launch.sh $waybar_log"
-	riverctl spawn "waybar --config ~/.config/waybar/river_config.jsonc > $waybar_log"
+	riverctl spawn "waybar --config ~/.config/waybar/config.jsonc > $waybar_log"
 fi
 
 #######################

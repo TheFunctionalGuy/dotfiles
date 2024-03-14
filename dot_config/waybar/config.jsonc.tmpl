@@ -12,10 +12,19 @@
   "layer": "top",
   "position": "top",
   "modules-left": [
+    {{- if eq .wm "hyprland" }}
+    "hyprland/submap",
+    "hyprland/workspaces",
+    {{- else if eq .wm "river" }}
     "river/mode",
     "river/tags",
+    {{- end }}
     "custom/arrow10",
+    {{- if eq .wm "hyprland" }}
+    "hyprland/window",
+    {{- else if eq .wm "river" }}
     "river/window",
+    {{- end }}
   ],
   "modules-right": [
     "custom/arrow1",
@@ -31,6 +40,9 @@
     "custom/arrow6",
     "battery",
     "custom/arrow7",
+    {{- if eq .wm "hyprland" }}
+    "hyprland/language",
+    {{- end }}
     "keyboard-state",
     "custom/arrow8",
     "tray",
@@ -91,19 +103,6 @@
     "format-disconnected": " ",
     "tooltip": false,
   },
-  "river/tags": {
-    "tag-labels": [
-      "1: 󰅩 ",
-      "2:  ",
-      "3:  ",
-      "4: 󰅩 ",
-      "5: 󰅺 ",
-      "6: 󰇮 ",
-      "7: 󰝚 ",
-      "8:  ",
-      "9:  ",
-    ],
-  },
   "pulseaudio": {
     "scroll-step": 5,
     "format": "{icon}  {volume:3}%",
@@ -125,9 +124,55 @@
   "tray": {
     "icon-size": 18,
   },
+  {{- if eq .wm "hyprland" }}
+  "hyprland/language": {
+    "format": "󰌌  {short}",
+    "tooltip": false,
+  },
+  "hyprland/submap": {
+    "format": "{}",
+    "tooltip": false,
+  },
+  "hyprland/window": {
+    "separate-outputs": true,
+  },
+  "hyprland/workspaces": {
+    "format": "{name}: {icon}",
+    "format-icons": {
+      "1": "󰅩 ",
+      "2": " ",
+      "3": " ",
+      "4": "󰅩 ",
+      "5": "󰅺 ",
+      "6": "󰇮 ",
+      "7": "󰝚 ",
+      "urgent": " ",
+      "focused": " ",
+      "default": " ",
+    },
+    "sort-by-number": true,
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace m+1",
+    "on-scroll-down": "hyprctl dispatch workspace m-1",
+  },
+  {{- else if eq .wm "river" }}
+  "river/tags": {
+    "tag-labels": [
+      "1: 󰅩 ",
+      "2:  ",
+      "3:  ",
+      "4: 󰅩 ",
+      "5: 󰅺 ",
+      "6: 󰇮 ",
+      "7: 󰝚 ",
+      "8:  ",
+      "9:  ",
+    ],
+  },
   "river/window": {
     "max-length": 20,
   },
+  {{- end }}
   "custom/arrow1": {
     "format": "",
     "tooltip": false,
