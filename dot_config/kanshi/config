@@ -1,0 +1,13 @@
+profile default {
+    output eDP-1 enable scale 1 position 0,0 transform normal
+}
+
+profile clamshell {
+    output eDP-1 disable
+    output "Acer Technologies XB253Q TH5EE0058521" enable scale 1 position 0,0 transform normal
+}
+
+profile multihead {
+    output eDP-1 enable scale 1 position 1440,1480 transform normal
+    output DP-1 enable scale 1 position 0,0 transform 90
+}

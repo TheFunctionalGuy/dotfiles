@@ -1,0 +1,278 @@
+#!/bin/sh
+
+# Constants
+background=0x222436
+bright_black=0x444a73
+black=0x1b1d2b
+blue=0x82aaff
+red=0xff757f
+
+# Variables
+# Extract river version and truncate if needed
+river_version=$(riverctl -version)
+case $river_version in
+"0.3.0-dev"*) river_version="0.3.0-dev" ;;
+esac
+
+# TODO: Figure out rivertile
+# # Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
+# riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+# riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+
+# # Super+Shift+H and Super+Shift+L to increment/decrement the main count of rivertile(1)
+# riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+# riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+
+# Super+{Up,Right,Down,Left} to change layout orientation
+riverctl map normal Super Up send-layout-cmd rivertile "main-location top"
+riverctl map normal Super Right send-layout-cmd rivertile "main-location right"
+riverctl map normal Super Down send-layout-cmd rivertile "main-location bottom"
+riverctl map normal Super Left send-layout-cmd rivertile "main-location left"
+
+########
+# Maps #
+########
+# Terminal
+riverctl map normal Super N spawn alacritty
+
+# Close
+riverctl map normal Super Q close
+
+# Exit
+riverctl map normal Super+Control+Alt Z exit
+
+# Launcher
+riverctl map normal Super D spawn fuzzel
+
+# Zoom
+riverctl map normal Super Z zoom
+
+# Lock Screen
+riverctl map normal Super Period spawn "waylock -init-color $background -input-color $bright_black -fail-color $red"
+
+# Toggle Fullscreen
+riverctl map normal Super F toggle-fullscreen
+
+# Toggle Floating
+riverctl map normal Super V toggle-float
+riverctl map-pointer normal Super BTN_MIDDLE toggle-float
+
+# Output
+riverctl map normal Super U focus-output left
+riverctl map normal Super I focus-output right
+
+riverctl map normal Super+Shift U send-to-output left
+riverctl map normal Super+Shift I send-to-output right
+
+# Focus & Swap
+if [ "$river_version" = "0.3.0-dev" ]; then
+	riverctl map normal Super H focus-view left
+	riverctl map normal Super J focus-view down
+	riverctl map normal Super K focus-view up
+	riverctl map normal Super L focus-view right
+
+	riverctl map normal Super+Shift H swap left
+	riverctl map normal Super+Shift J swap down
+	riverctl map normal Super+Shift K swap up
+	riverctl map normal Super+Shift L swap right
+else
+	riverctl map normal Super J focus-view next
+	riverctl map normal Super K focus-view previous
+
+	riverctl map normal Super+Shift J swap next
+	riverctl map normal Super+Shift K swap previous
+fi
+
+########
+# Tags #
+########
+for i in $(seq 1 9); do
+	tags=$((1 << ($i - 1)))
+
+	riverctl map normal Super $i set-focused-tags $tags
+	riverctl map normal Super+Shift $i set-view-tags $tags
+	riverctl map normal Super+Control $i toggle-focused-tags $tags
+	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+done
+
+all_tags=$(((1 << 32) - 1))
+
+riverctl map normal Super 0 set-focused-tags $all_tags
+riverctl map normal Super+Shift 0 set-view-tags $all_tags
+
+################
+# Special Tags #
+################
+# Password Manager
+password_manager_tag=$((1 << 14))
+all_but_password_manager_tag=$((((1 << 32) - 1) ^ $password_manager_tag))
+
+if [ "$river_version" = "0.3.0-dev" ]; then
+	riverctl map normal Super Minus toggle-focused-tags -select $password_manager_tag
+	riverctl map normal Super+Shift Minus set-view-tags $password_manager_tag
+else
+	riverctl map normal Super Minus toggle-focused-tags $password_manager_tag
+	riverctl map normal Super+Shift Minus set-view-tags $password_manager_tag
+fi
+
+# TODO: Only set once
+riverctl spawn-tagmask $all_but_password_manager_tag
+
+# Scratchpad
+scratchpag_tag=$((1 << 15))
+all_but_scratchpad_tag=$((((1 << 32) - 1) ^ $scratchpag_tag))
+
+if [ "$river_version" = "0.3.0-dev" ]; then
+	riverctl map normal Super S toggle-focused-tags -select $scratchpag_tag
+	riverctl map normal Super+Shift S set-view-tags $scratchpag_tag
+else
+	riverctl map normal Super S toggle-focused-tags $scratchpag_tag
+	riverctl map normal Super+Shift S set-view-tags $scratchpag_tag
+fi
+
+# TODO: Only set once
+riverctl spawn-tagmask $all_but_scratchpad_tag
+
+#########
+# Modes #
+#########
+# Resize
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+riverctl declare-mode resize
+riverctl map normal Super R enter-mode resize
+
+riverctl map -repeat resize None H resize horizontal -10
+riverctl map -repeat resize None J resize vertical 10
+riverctl map -repeat resize None K resize vertical -10
+riverctl map -repeat resize None L resize horizontal 10
+
+riverctl map resize Control C enter-mode normal
+riverctl map resize None Escape enter-mode normal
+riverctl map resize Super R enter-mode normal
+
+# Move
+riverctl map-pointer normal Super BTN_LEFT move-view
+
+riverctl declare-mode move
+riverctl map normal Super M enter-mode move
+
+riverctl map -repeat move None H move left 10
+riverctl map -repeat move None J move down 10
+riverctl map -repeat move None K move up 10
+riverctl map -repeat move None L move right 10
+
+riverctl map move Control C enter-mode normal
+riverctl map move None Escape enter-mode normal
+riverctl map move Super M enter-mode normal
+
+# Passthrough
+riverctl declare-mode passthrough
+riverctl map normal Super F11 enter-mode passthrough
+
+riverctl map passthrough Super F11 enter-mode normal
+
+################
+# Control Maps #
+################
+for mode in normal locked; do
+	# Audio Control
+	riverctl map $mode None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@   +5%'
+	riverctl map $mode None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@   -5%'
+	riverctl map $mode None XF86AudioMute spawn 'pactl set-sink-mute   @DEFAULT_SINK@   toggle'
+	riverctl map $mode None XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+	# Player Control
+	riverctl map $mode Super Home spawn 'playerctl -p "firefox" previous'
+	riverctl map $mode Super End spawn 'playerctl -p "firefox" play-pause'
+	riverctl map $mode Super Insert spawn 'playerctl -p "firefox" next'
+	# Brightness Control
+	riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl -c backlight set +5%'
+	riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl -c backlight -n set 5%-'
+done
+
+#########
+# Rules #
+#########
+if [ "$river_version" = "0.3.0-dev" ]; then
+	# Float Rules
+	riverctl rule-add -app-id 'floating_window' float
+
+	riverctl rule-add -app-id 'org.keepassxc.KeePassXC' float
+
+	riverctl rule-add -app-id 'qalculate-gtk' float
+	riverctl rule-add -app-id 'qalculate-qt' float
+
+	riverctl rule-add -app-id 'org.kde.polkit-kde-authentication-agent-1' float
+
+	# Tag Rules
+	riverctl rule-add -app-id 'org.keepassxc.KeePassXC' tags $password_manager_tag
+
+	chat_tag=$((1 << 4))
+	riverctl rule-add -app-id 'Slack' tags $chat_tag
+	riverctl rule-add -app-id 'discord' tags $chat_tag
+	riverctl rule-add -app-id 'Ferdium' tags $chat_tag
+	riverctl rule-add -app-id 'org.telegram.desktop' tags $chat_tag
+
+	mail_tag=$((1 << 5))
+	riverctl rule-add -app-id 'thunderbird' tags $mail_tag
+
+	# Server Side Decoration Rules
+	riverctl rule-add ssd
+else
+	riverctl float-filter-add app-id 'floating_window'
+
+	riverctl float-filter-add app-id 'org.keepassxc.KeePassXC'
+
+	riverctl float-filter-add app-id 'qalculate-gtk'
+	riverctl float-filter-add app-id 'qalculate-qt'
+
+	riverctl float-filter-add app-id 'org.kde.polkit-kde-authentication-agent-1'
+fi
+
+#################
+# Configuration #
+#################
+riverctl background-color "${background}dd"
+
+riverctl border-color-focused $blue
+riverctl border-color-unfocused $black
+riverctl border-color-urgent $red
+riverctl border-width 2
+
+riverctl hide-cursor when-typing enabled
+
+riverctl set-repeat 50 300
+
+riverctl attach-mode bottom
+
+#########
+# Execs #
+#########
+riverctl spawn /usr/lib/polkit-kde-authentication-agent-1
+riverctl spawn udiskie
+riverctl spawn mako
+riverctl spawn 'nm-applet --indicator'
+riverctl spawn 'swayidle -w -C ~/.config/swayidle/river_config'
+riverctl spawn kanshi
+# riverctl spawn kanata
+
+if [ "$river_version" = "0.3.0-dev" ]; then
+	waybar_log='/tmp/waybar.log'
+
+	riverctl spawn "~/.config/river/launch.sh $waybar_log"
+	riverctl spawn "waybar --config ~/.config/waybar/river_config.jsonc > $waybar_log"
+fi
+
+#######################
+# Input Configuration #
+#######################
+# Keyboard
+riverctl keyboard-layout -variant nodeadkeys, -options grp:win_space_toggle de,us
+
+# Touchpad
+riverctl input pointer-1739-0-Synaptics_TM3053-003 natural-scroll enabled
+riverctl input pointer-1739-0-Synaptics_TM3053-003 tap disabled
+
+# Default Layout Generator
+rivertile -view-padding 4 -outer-padding 4 &
+riverctl default-layout rivertile

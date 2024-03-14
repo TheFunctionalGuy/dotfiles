@@ -1,0 +1,318 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+  70% {
+    color: @light;
+  }
+
+  to {
+    color: @light;
+    background-color: @warning;
+  }
+}
+
+@keyframes blink-critical {
+  70% {
+    color: @dark;
+  }
+
+  to {
+    color: @dark;
+    background-color: @critical;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Styles
+ * -------------------------------------------------------------------------- */
+
+/* COLORS */
+/* Tokyonight Moon */
+@define-color black      #1b1d2b;
+@define-color br-black   #444a73;
+@define-color white      #828bb8;
+@define-color blue       #82aaff;
+@define-color cyan       #86e1fc;
+@define-color green      #c3e88d;
+@define-color purple     #c099ff;
+@define-color red        #ff757f;
+@define-color yellow     #ffc777;
+@define-color background #222436;
+@define-color orange     #ff967c;
+
+@define-color light          @white;
+@define-color dark           @black;
+@define-color warning        @yellow;
+@define-color critical       @red;
+@define-color mode           @yellow;
+@define-color tag            @br-black;
+@define-color tag-active     @green;
+@define-color tag-visible    @blue;
+@define-color sound          @red;
+@define-color network        @orange;
+@define-color memory         @yellow;
+@define-color cpu            @green;
+@define-color temp           @cyan;
+@define-color battery        @blue;
+@define-color keyboard-state @purple;
+@define-color date           @br-black;
+@define-color time           @blue;
+
+/* Reset all styles */
+* {
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* The whole bar */
+#waybar {
+  background: transparent;
+  color: @light;
+  font-family: "Iosevka NF";
+  font-size: 13pt;
+  font-weight: bold;
+}
+
+/* Each module */
+#battery,
+#clock,
+#cpu,
+#keyboard-state,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Each module that should blink */
+#mode,
+#temperature,
+#battery {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Each critical module */
+#temperature.critical,
+#battery.critical {
+  color: @critical;
+}
+
+/* Each critical that should blink */
+#mode,
+#temperature.critical,
+#battery.critical.discharging {
+  animation-name: blink-critical;
+  animation-duration: 2s;
+}
+
+/* Each warning */
+#network.disconnected,
+#temperature.warning,
+#battery.warning {
+  color: @warning;
+}
+
+/* Each warning that should blink */
+#battery.warning.discharging {
+  animation-name: blink-warning;
+  animation-duration: 3s;
+}
+
+/* And now modules themselves in their respective order */
+#mode {
+  /* Shown current river mode (resize etc.) */
+  color: @dark;
+  background: @mode;
+  font-style: italic;
+}
+
+#mode.normal {
+  font-size: 0;
+  min-width: 0;
+  min-height: 0;
+
+  padding: 0;
+  border: 0;
+}
+
+/* Tag stuff */
+#tags button {
+  padding-left: 8px;
+  padding-right: 8px;
+  color: @tag-visible;
+  background: @tag;
+}
+
+#tags button.occupied {
+  color: @dark;
+  background: @tag-visible;
+}
+
+#tags button.focused {
+  color: @dark;
+  background: @tag-active;
+}
+
+#tags button.urgent {
+  border-color: @red;
+  color: @red;
+}
+
+#tags button:not(.occupied):not(.focused) {
+  font-size: 0;
+  min-width: 0;
+  min-height: 0;
+
+  padding: 0;
+  border: 0;
+}
+
+#window {
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
+#pulseaudio {
+  background: @sound;
+  color: @dark;
+}
+
+#network {
+  background: @network;
+  color: @dark;
+}
+
+#memory {
+  background: @memory;
+  color: @dark;
+}
+
+#cpu {
+  background: @cpu;
+  color: @dark;
+}
+
+#temperature {
+  background: @temp;
+  color: @dark;
+}
+
+#battery {
+  background: @battery;
+  color: @dark;
+}
+
+#keyboard-state {
+  padding-right: 16px;
+  background: @keyboard-state;
+  color: @dark;
+}
+
+#tray {
+  background: @date;
+}
+#tray * {
+  padding: 0 4px;
+}
+
+#clock.date {
+  background: @date;
+  color: @tag-visible;
+}
+
+#clock.time {
+  background: @time;
+  color: @dark;
+}
+
+#pulseaudio.muted {
+  /* No styles */
+}
+
+#custom-arrow0,
+#custom-arrow1,
+#custom-arrow2,
+#custom-arrow3,
+#custom-arrow4,
+#custom-arrow5,
+#custom-arrow6,
+#custom-arrow7,
+#custom-arrow8,
+#custom-arrow9,
+#custom-arrow10 {
+  font-size: 26px;
+}
+
+#custom-arrow0 {
+  color: @date;
+  background: transparent;
+}
+
+#custom-arrow1 {
+  color: @sound;
+  background: transparent;
+}
+
+#custom-arrow2 {
+  color: @network;
+  background: @sound;
+}
+
+#custom-arrow3 {
+  color: @memory;
+  background: @network;
+}
+
+#custom-arrow4 {
+  color: @cpu;
+  background: @memory;
+}
+
+#custom-arrow5 {
+  color: @temp;
+  background: @cpu;
+}
+
+#custom-arrow6 {
+  color: @battery;
+  background: @temp;
+}
+
+#custom-arrow7 {
+  color: @keyboard-state;
+  background: @battery;
+}
+
+#custom-arrow8 {
+  color: @date;
+  background: @keyboard-state;
+}
+
+#custom-arrow9 {
+  color: @time;
+  background: @date;
+}
+
+#custom-arrow10 {
+  color: @tag;
+  background: transparent;
+}
