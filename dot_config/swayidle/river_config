@@ -1,2 +1,0 @@
-timeout 600 'waylock -fork-on-lock -init-color 0x222436 -input-color 0x444a73 -fail-color 0xff757f'
-before-sleep 'waylock -fork-on-lock -init-color 0x222436 -input-color 0x444a73 -fail-color 0xff757f'

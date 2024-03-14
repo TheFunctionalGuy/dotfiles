@@ -1,0 +1,5 @@
+{{- if eq .wm "hyprland" -}}
+timeout 150 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+{{ end -}}
+timeout 300 'waylock -fork-on-lock -init-color 0x222436 -input-color 0x444a73 -fail-color 0xff757f'
+before-sleep 'waylock -fork-on-lock -init-color 0x222436 -input-color 0x444a73 -fail-color 0xff757f'
