@@ -87,12 +87,17 @@
 }
 
 /* Each module */
+{{- if eq .wm "hyprland" }}
+#language,
+#submap,
+{{- else if eq .wm "river" }}
+#mode,
+{{- end }}
 #battery,
 #clock,
 #cpu,
 #keyboard-state,
 #memory,
-#mode,
 #network,
 #pulseaudio,
 #temperature,
@@ -102,32 +107,40 @@
 }
 
 /* Each module that should blink */
+{{- if eq .wm "hyprland" }}
+#submap,
+{{- else if eq .wm "river" }}
 #mode,
-#temperature,
-#battery {
+{{- end }}
+#battery,
+#temperature {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
 
 /* Each critical module */
-#temperature.critical,
-#battery.critical {
+#battery.critical,
+#temperature.critical {
   color: @critical;
 }
 
 /* Each critical that should blink */
+{{- if eq .wm "hyprland" }}
+#submap,
+{{- else if eq .wm "river" }}
 #mode,
-#temperature.critical,
-#battery.critical.discharging {
+{{- end }}
+#battery.critical.discharging,
+#temperature.critical {
   animation-name: blink-critical;
   animation-duration: 2s;
 }
 
 /* Each warning */
+#battery.warning,
 #network.disconnected,
-#temperature.warning,
-#battery.warning {
+#temperature.warning {
   color: @warning;
 }
 
@@ -138,6 +151,42 @@
 }
 
 /* And now modules themselves in their respective order */
+{{- if eq .wm "hyprland" }}
+/* Hyprland stuff */
+#submap {
+  color: @dark;
+  background: @mode;
+  font-style: italic;
+}
+
+#workspaces button {
+  padding-left: 8px;
+  padding-right: 8px;
+  color: @tag-visible;
+  background: @tag;
+}
+
+#workspaces button.visible {
+  color: @dark;
+  background: @tag-visible;
+}
+
+#workspaces button.active {
+  color: @dark;
+  background: @tag-active;
+}
+
+window#waybar.fullscreen {
+  color: @orange;
+}
+
+#language {
+  background: @keyboard-state;
+  color: @dark;
+  min-width: 20px;
+}
+{{- else if eq .wm "river" }}
+/* River stuff */
 #mode {
   /* Shown current river mode (resize etc.) */
   color: @dark;
@@ -154,7 +203,6 @@
   border: 0;
 }
 
-/* Tag stuff */
 #tags button {
   padding-left: 8px;
   padding-right: 8px;
@@ -185,7 +233,9 @@
   padding: 0;
   border: 0;
 }
+{{- end }}
 
+/* Rest of modules */
 #window {
   margin-right: 40px;
   margin-left: 40px;
@@ -222,7 +272,11 @@
 }
 
 #keyboard-state {
+{{- if eq .wm "hyprland" }}
+  padding-right: 5px;
+{{- else }}
   padding-right: 16px;
+{{- end }}
   background: @keyboard-state;
   color: @dark;
 }
