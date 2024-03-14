@@ -1,4 +1,8 @@
 {{- $email := promptStringOnce . "email" "Email address" -}}
 
+{{- $wms := list "river" "hyprland" "sway" "none" -}}
+{{- $wm := promptChoiceOnce . "wm" "What WM do you want to use" $wms -}}
+
 [data]
 email = {{ $email | quote }}
+wm = {{ $wm | quote }}
