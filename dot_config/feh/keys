@@ -1,0 +1,27 @@
+# Image navigation
+next_img l Right space
+prev_img h Left  BackSpace
+
+# Zooming
+zoom_in      k Up       KP_Add
+zoom_out     j Down     KP_Subtract
+zoom_default Z asterisk KP_Multiply
+zoom_fit     z slash    KP_Divide
+
+# Scrolling
+scroll_left  H C-Left  KP_Left
+scroll_right L C-Right KP_Right
+scroll_up    K C-Up    KP_Up
+scroll_down  J C-Down  KP_Down
+
+# Menu
+menu_close  C-c Escape
+menu_up     k   Up
+menu_down   j   Down
+menu_parent h   Left
+menu_child  l   Right
+menu_select C-m Return space
+
+# Unbind
+save_image
+save_filelist
