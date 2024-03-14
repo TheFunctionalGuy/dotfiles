@@ -48,7 +48,7 @@ riverctl map normal Super D spawn fuzzel
 riverctl map normal Super Z zoom
 
 # Lock Screen
-riverctl map normal Super Period spawn "waylock -init-color $background -input-color $bright_black -fail-color $red"
+riverctl map normal Super Period spawn "waylock -fork-on-lock -init-color $background -input-color $bright_black -fail-color $red"
 
 # Toggle Fullscreen
 riverctl map normal Super F toggle-fullscreen
