@@ -40,10 +40,10 @@
     "custom/arrow6",
     "battery",
     "custom/arrow7",
+    "keyboard-state",
     {{- if eq .wm "hyprland" }}
     "hyprland/language",
     {{- end }}
-    "keyboard-state",
     "custom/arrow8",
     "tray",
     "clock#date",
@@ -126,7 +126,7 @@
   },
   {{- if eq .wm "hyprland" }}
   "hyprland/language": {
-    "format": "󰌌  {short}",
+    "format": "{short}",
     "tooltip": false,
   },
   "hyprland/submap": {
