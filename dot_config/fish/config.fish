@@ -82,3 +82,7 @@ end
 if type --query zoxide
     zoxide init fish | source
 end
+
+if type --query direnv
+    direnv hook fish | source
+end
