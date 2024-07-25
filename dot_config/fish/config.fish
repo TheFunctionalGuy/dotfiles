@@ -56,6 +56,10 @@ if status is-interactive
         abbr --add j just
     end
 
+    if type --query wl-copy
+        abbr --add ccwd "pwd | wl-copy --trim-newline"
+    end
+
     # Multicd parameter
     function _multicd_parameter
         echo (string join "" (string repeat -n (math (string length -- $argv[1]) - 1) ../) "%")
