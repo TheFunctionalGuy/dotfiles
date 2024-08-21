@@ -48,4 +48,8 @@ function fish_user_key_bindings
     bind --mode default \et transpose-words
     bind --mode insert \ct transpose-chars
     bind --mode insert \et transpose-words
+
+    # Copy to clipboard
+    bind --mode default yy fish_clipboard_copy
+    bind --mode visual y fish_clipboard_copy
 end
