@@ -3,9 +3,13 @@ abbr --add gC git clone
 abbr --add gco git checkout
 abbr --add gs git status
 abbr --add gf git fetch
-abbr --add gp git pull
-abbr --add gP git push
 abbr --add ga git add
+# pulling
+abbr --add gp git pull
+abbr --add gpF git reset --hard @{u}
+# pushing
+abbr --add gP git push
+abbr --add gPF git push --force
 # git commit
 abbr --add gc git commit
 abbr --add gcm --set-cursor 'git commit -m "%'
