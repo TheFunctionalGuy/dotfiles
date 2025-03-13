@@ -20,6 +20,11 @@ args = ["msg", "config", "font.size=16"]
 [[keyboard.bindings]]
 key = "Key0"
 mods = "Control"
+action = "ResetFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
 
 [keyboard.bindings.command]
 program = "alacritty"
