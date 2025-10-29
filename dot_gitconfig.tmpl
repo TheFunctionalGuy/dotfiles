@@ -2,11 +2,19 @@
 	name = Julian Vesper
 	email = {{ .email | quote }}
 
-[rerere]
-	enabled = false
-
 [include]
     path = ~/.gitconfig.local
+
+[fetch]
+    prune     = true
+    pruneTags = true
+    all       = true
+
+[merge]
+	conflictstyle = zdiff3
+
+[rerere]
+	enabled = false
 
 {{- if lookPath "delta" }}
 
@@ -17,8 +25,8 @@
 	diffFilter = delta --color-only
 
 [delta]
-	navigate = true
-	light = false
+	navigate                      = true
+	dark                          = true
 	minus-style                   = syntax "#3a273a"
 	minus-non-emph-style          = syntax "#3a273a"
 	minus-emph-style              = syntax "#6b2e43"
@@ -30,9 +38,6 @@
 	plus-empty-line-marker-style  = syntax "#273849"
 	line-numbers-plus-style       = "#627259"
 	line-numbers-zero-style       = "#3b4261"
-
-[merge]
-	conflictstyle = diff3
 {{- end -}}
 
 {{- if or (lookPath "delta") (lookPath "difft") }}
