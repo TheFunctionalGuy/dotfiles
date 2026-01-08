@@ -4,6 +4,9 @@ if status is-interactive
     # Custom settings for "tide" theme
     set --global fish_greeting
 
+    # Set custom theme
+    fish_config theme choose tokyonight_moon
+
     # Set terminal
     set --global --export TERMINAL alacritty
 
@@ -60,6 +63,7 @@ if status is-interactive
         abbr --add ccwd "pwd | wl-copy --trim-newline"
     end
 
+    # function _dots_to_path qq
     # Multicd parameter
     function _multicd_parameter
         echo (string join "" (string repeat -n (math (string length -- $argv[1]) - 1) ../) "%")
@@ -68,7 +72,9 @@ if status is-interactive
 
     # Multicd
     function _multicd
-        echo (string join "" "cd " (string repeat -n (math (string length -- $argv[1]) - 1) ../) "%")
+        set number_of_paths_up (math (string length -- $argv[1]) - 1)
+
+        echo (string join "" "cd " (string repeat -n $number_of_paths_up ../) "%")
     end
     abbr --add multicd --set-cursor --position command --regex '^\.\.+$' --function _multicd
 
@@ -76,7 +82,23 @@ if status is-interactive
     function _last_history_item
         echo $history[1]
     end
-    abbr -a !! --position anywhere --function _last_history_item
+    abbr --add !! --position anywhere --function _last_history_item
+
+    # Remove the first command in the last history entry and place the cursor in front of the command
+    function _last_history_item_prepend
+        set last_history_entry (string split " " $history[1])
+
+        echo (string join " " -- "%" $last_history_entry[2..])
+    end
+    abbr --add !# --set-cursor --function _last_history_item_prepend
+
+    # Remove the last command in the last history entry and place the cursor at the end of the command
+    function _last_history_item_append
+        set last_history_entry (string split " " $history[1])
+
+        echo (string join " " -- $last_history_entry[..-2] "%")
+    end
+    abbr --add !@ --set-cursor --function _last_history_item_append
 end
 
 if type --query zoxide
@@ -86,3 +108,6 @@ end
 if type --query direnv
     direnv hook fish | source
 end
+
+# Fex
+[ -f ~/.fex.fish ] && source ~/.fex.fish
