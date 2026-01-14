@@ -7,5 +7,6 @@
 tail -f "$1" | grep -q "Bar configured"
 
 # Execute programs that need to run after Waybar
+keepassxc &
 nextcloud --background &
 ferdium &
