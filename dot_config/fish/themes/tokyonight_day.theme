@@ -23,4 +23,3 @@ fish_pager_color_prefix 007197
 fish_pager_color_completion 3760bf
 fish_pager_color_description 848cb5
 fish_pager_color_selected_background --background=b7c1e3
-
