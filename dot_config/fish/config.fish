@@ -101,13 +101,13 @@ if status is-interactive
     abbr --add !@ --set-cursor --function _last_history_item_append
 end
 
-if type --query zoxide
-    zoxide init fish | source
-end
+# Fex
+[ -f ~/.fex.fish ] && source ~/.fex.fish
 
 if type --query direnv
     direnv hook fish | source
 end
 
-# Fex
-[ -f ~/.fex.fish ] && source ~/.fex.fish
+if type --query zoxide
+    zoxide init fish | source
+end
