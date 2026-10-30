@@ -1,7 +1,7 @@
 ---@module 'hl'
 
 return {
-    blue  = "rgb(82aaff)",
-    black = "rgb(1b1d2b)",
-    green = "rgb(c3e88d)",
+  blue = "rgb(82aaff)",
+  black = "rgb(1b1d2b)",
+  green = "rgb(c3e88d)",
 }

@@ -1,5 +1,6 @@
 ---@module 'hl'
 
+-- stylua: ignore start
 -- Colors
 local colors = require("colors")
 
@@ -16,75 +17,80 @@ hl.env("XCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 
 hl.config({
-    general = {
-        gaps_in     = 4,
-        gaps_out    = 4,
-        border_size = 2,
-        col = {
-            active_border   = { colors = { colors.blue, colors.green }, angle = 45 },
-            inactive_border = colors.black,
+  general = {
+    gaps_in     = 4,
+    gaps_out    = 4,
+    border_size = 2,
+    col = {
+      active_border   = {
+        colors = {
+          colors.blue,
+          colors.green,
         },
-
-        layout      = "dwindle",
-
-        no_focus_fallback = true,
+        angle = 45,
+      },
+      inactive_border = colors.black,
     },
 
-    dwindle = {
-        preserve_split = true,
-        force_split    = 2,
+    layout            = "dwindle",
+    no_focus_fallback = true,
+  },
+
+  dwindle = {
+    preserve_split = true,
+    force_split    = 2,
+  },
+
+  input = {
+    kb_layout    = "de,us",
+    kb_variant   = "nodeadkeys,",
+    kb_options   = "grp:win_space_toggle",
+
+    -- 2 - Cursor focus will be detached from keyboard focus. Clicking on a window will move keyboard focus to that window
+    follow_mouse = 2,
+
+    repeat_rate  = 50,
+    repeat_delay = 300,
+
+    touchpad = {
+      natural_scroll = true,
+    },
+  },
+
+  cursor = {
+    no_warps          = true,
+    hide_on_key_press = true,
+  },
+
+  misc = {
+    disable_hyprland_logo     = true,
+    disable_splash_rendering  = true,
+    background_color          = "rgb(1d1f2f)",
+    on_focus_under_fullscreen = 2,
+  },
+
+  -- Styling
+  decoration = {
+    rounding = 0,
+
+    shadow = {
+      enabled      = true,
+      range        = 4,
+      render_power = 3,
+      color        = "rgba(00000099)",
     },
 
-    input = {
-        kb_layout    = "de,us",
-        kb_variant   = "nodeadkeys,",
-        kb_options   = "grp:win_space_toggle",
-
-        -- 2 - Cursor focus will be detached from keyboard focus. Clicking on a window will move keyboard focus to that window
-        follow_mouse = 2,
-
-        repeat_rate  = 50,
-        repeat_delay = 300,
-
-        touchpad = {
-            natural_scroll = true,
-        },
+    blur = {
+      enabled           = true,
+      size              = 3,
+      passes            = 1,
+      new_optimizations = true,
     },
+  },
 
-    cursor = {
-        no_warps          = true,
-        hide_on_key_press = true,
-    },
-
-    misc = {
-        disable_hyprland_logo     = true,
-        disable_splash_rendering  = true,
-        background_color          = "rgb(1d1f2f)",
-        on_focus_under_fullscreen = 2,
-    },
-
-    -- Styling
-    decoration = {
-        rounding = 0,
-
-        shadow = {
-            enabled      = true,
-            range        = 4,
-            render_power = 3,
-            color        = "rgba(00000099)",
-        },
-
-        blur = {
-            enabled           = true,
-            size              = 3,
-            passes            = 1,
-            new_optimizations = true,
-        },
-    },
-
-    animations = {
-        enabled = false,
-    },
+  animations = {
+    enabled = false,
+  },
 })
 
 -- Binds
@@ -95,3 +101,4 @@ require("rules")
 
 -- Execs
 require("execs")
+-- stylua: ignore end

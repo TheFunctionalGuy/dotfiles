@@ -5,6 +5,7 @@ local mainMod = "SUPER"
 --============--
 -- Main Binds --
 --============--
+-- stylua: ignore start
 -- Terminal
 hl.bind(mainMod .. " + N",              hl.dsp.exec_cmd("alacritty"))
 hl.bind(mainMod .. " + Return",         hl.dsp.exec_cmd("alacritty"))
@@ -43,50 +44,58 @@ hl.bind(mainMod .. " + M",              hl.dsp.submap("move"))
 -- Advanced Monitor Navigation
 hl.bind(mainMod .. " + U",              hl.dsp.focus({ monitor = "l" }))
 hl.bind(mainMod .. " + I",              hl.dsp.focus({ monitor = "r" }))
+-- stylua: ignore end
 
 
 --===============--
 -- Resize Submap --
 --===============--
+-- stylua: ignore start
 hl.define_submap("resize", function()
-    hl.bind("H",              hl.dsp.window.resize({ x = -10, y = 0,   relative = true }), { repeating = true })
-    hl.bind("J",              hl.dsp.window.resize({ x = 0,   y = 10,  relative = true }), { repeating = true })
-    hl.bind("K",              hl.dsp.window.resize({ x = 0,   y = -10, relative = true }), { repeating = true })
-    hl.bind("L",              hl.dsp.window.resize({ x = 10,  y = 0,   relative = true }), { repeating = true })
+  hl.bind("H",               hl.dsp.window.resize({ x = -10, y = 0,   relative = true }), { repeating = true })
+  hl.bind("J",               hl.dsp.window.resize({ x = 0,   y = 10,  relative = true }), { repeating = true })
+  hl.bind("K",               hl.dsp.window.resize({ x = 0,   y = -10, relative = true }), { repeating = true })
+  hl.bind("L",               hl.dsp.window.resize({ x = 10,  y = 0,   relative = true }), { repeating = true })
 
-    -- Reset to Global Submap
-    hl.bind("CTRL + C",       hl.dsp.submap("reset"))
-    hl.bind("escape",         hl.dsp.submap("reset"))
-    hl.bind(mainMod .. " + R", hl.dsp.submap("reset"))
+  -- Reset to Global Submap
+  hl.bind("CTRL + C",        hl.dsp.submap("reset"))
+  hl.bind("escape",          hl.dsp.submap("reset"))
+  hl.bind(mainMod .. " + R", hl.dsp.submap("reset"))
 end)
+-- stylua: ignore end
 
 --=============--
 -- Move Submap --
 --=============--
+-- stylua: ignore start
 hl.define_submap("move", function()
-    hl.bind("H",              hl.dsp.window.move({ x = -20, y = 0,   relative = true }), { repeating = true })
-    hl.bind("J",              hl.dsp.window.move({ x = 0,   y = 20,  relative = true }), { repeating = true })
-    hl.bind("K",              hl.dsp.window.move({ x = 0,   y = -20, relative = true }), { repeating = true })
-    hl.bind("L",              hl.dsp.window.move({ x = 20,  y = 0,   relative = true }), { repeating = true })
+  hl.bind("H",               hl.dsp.window.move({ x = -20, y = 0,   relative = true }), { repeating = true })
+  hl.bind("J",               hl.dsp.window.move({ x = 0,   y = 20,  relative = true }), { repeating = true })
+  hl.bind("K",               hl.dsp.window.move({ x = 0,   y = -20, relative = true }), { repeating = true })
+  hl.bind("L",               hl.dsp.window.move({ x = 20,  y = 0,   relative = true }), { repeating = true })
 
-    -- Reset to Global Submap
-    hl.bind("CTRL + C",       hl.dsp.submap("reset"))
-    hl.bind("escape",         hl.dsp.submap("reset"))
-    hl.bind(mainMod .. " + M", hl.dsp.submap("reset"))
+  -- Reset to Global Submap
+  hl.bind("CTRL + C",        hl.dsp.submap("reset"))
+  hl.bind("escape",          hl.dsp.submap("reset"))
+  hl.bind(mainMod .. " + M", hl.dsp.submap("reset"))
 end)
+-- stylua: ignore end
 
 --====================--
 -- Passthrough Submap --
 --====================--
-hl.bind(mainMod .. " + ALT + P", hl.dsp.submap("passthrough"))
+-- stylua: ignore start
+hl.bind(mainMod .. " + ALT + P",  hl.dsp.submap("passthrough"))
 hl.define_submap("passthrough", function()
-    -- Exit passthrough mode
-    hl.bind(mainMod .. " + ESCAPE", hl.dsp.submap("reset"))
+  -- Exit passthrough mode
+  hl.bind(mainMod .. " + ESCAPE", hl.dsp.submap("reset"))
 end)
+-- stylua: ignore end
 
 --========================--
 -- Window/Workspace Binds --
 --========================--
+-- stylua: ignore start
 -- Move Focus With mainMod + Vim Keys
 hl.bind(mainMod .. " + H",         hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + J",         hl.dsp.focus({ direction = "down" }))
@@ -102,9 +111,9 @@ hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
 -- Switch Workspaces With mainMod + [0-9]
 -- Move Active Window to a Workspace With mainMod + SHIFT + [0-9]
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
+  local key = i % 10 -- 10 maps to key 0
+  hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
+  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
 end
 
 -- Scroll Through Existing Workspaces With mainMod + Scroll
@@ -114,11 +123,13 @@ hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 -- Move/Resize Windows With mainMod + LMB/RMB and Dragging
 hl.bind(mainMod .. " + mouse:272",  hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273",  hl.dsp.window.resize(), { mouse = true })
+-- stylua: ignore end
 
 
 --===============--
 -- Control Binds --
 --===============--
+-- stylua: ignore start
 -- Audio Control
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5%"),   { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"),   { locked = true, repeating = true })
@@ -135,16 +146,19 @@ hl.bind(mainMod .. " + Insert",  hl.dsp.exec_cmd('playerctl -p "firefox" next'),
 -- Brightness Control
 hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl -c backlight set +5%"),    { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -c backlight -n set 5%-"), { locked = true, repeating = true })
-
+-- stylua: ignore end
 
 --==============--
 -- Polkit Binds --
 --==============--
 -- Clear the password field with CTRL + U (hyprpolkitagent only knows CTRL + SHIFT + BackSpace)
 -- Only enabled while the polkit dialog is focused, so CTRL + U keeps working everywhere else
-local polkitClear = hl.bind("CTRL + U", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "BackSpace", window = "class:^(hyprpolkitagent)$" }))
+local polkitClear = hl.bind(
+  "CTRL + U",
+  hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "BackSpace", window = "class:^(hyprpolkitagent)$" })
+)
 polkitClear:set_enabled(false)
 
 hl.on("window.active", function(window)
-    polkitClear:set_enabled(window ~= nil and window.class == "hyprpolkitagent")
+  polkitClear:set_enabled(window ~= nil and window.class == "hyprpolkitagent")
 end)
