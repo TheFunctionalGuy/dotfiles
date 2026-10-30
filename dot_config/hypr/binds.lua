@@ -135,3 +135,16 @@ hl.bind(mainMod .. " + Insert",  hl.dsp.exec_cmd('playerctl -p "firefox" next'),
 -- Brightness Control
 hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl -c backlight set +5%"),    { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -c backlight -n set 5%-"), { locked = true, repeating = true })
+
+
+--==============--
+-- Polkit Binds --
+--==============--
+-- Clear the password field with CTRL + U (hyprpolkitagent only knows CTRL + SHIFT + BackSpace)
+-- Only enabled while the polkit dialog is focused, so CTRL + U keeps working everywhere else
+local polkitClear = hl.bind("CTRL + U", hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = "BackSpace", window = "class:^(hyprpolkitagent)$" }))
+polkitClear:set_enabled(false)
+
+hl.on("window.active", function(window)
+    polkitClear:set_enabled(window ~= nil and window.class == "hyprpolkitagent")
+end)

@@ -49,7 +49,7 @@ hl.window_rule({
 -- Polkit
 hl.window_rule({
     name       = "polkit-style",
-    match      = { class = "^(org.kde.polkit-kde-authentication-agent-1)$" },
+    match      = { class = "^(hyprpolkitagent)$" },
 
     float      = true,
     center     = true,
