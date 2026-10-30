@@ -22,12 +22,12 @@ hl.window_rule({ match = { class = "^(org.keepassxc.KeePassXC)$" }, workspace = 
 
 -- Workspace 5 (Chat Apps)
 hl.window_rule({ match = { class = "^(org.telegram.desktop)$" },    workspace = "5 silent" })
-hl.window_rule({ match = { class = "^(Slack)$" },                   workspace = "5 silent" })
+hl.window_rule({ match = { class = "^(slack)$" },                   workspace = "5 silent" })
 hl.window_rule({ match = { class = "^(discord)$" },                 workspace = "5 silent" })
 hl.window_rule({ match = { class = "^(Ferdium)$" },                 workspace = "5 silent" })
 
 -- Workspace 6 (Mail)
-hl.window_rule({ match = { class = "^(thunderbird)$" },             workspace = "6 silent" })
+hl.window_rule({ match = { class = "^(org.mozilla.Thunderbird)$" }, workspace = "6 silent" })
 
 -- Style
 -- Only Allow Shadows for Floating Windows
